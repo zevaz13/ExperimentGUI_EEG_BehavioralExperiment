@@ -12,6 +12,8 @@ This GUI was used in the **Metamers project** to log behavioral and EEG data for
 
 ## Overview
 
+<img width="446" height="464" alt="image" src="https://github.com/user-attachments/assets/3b860e91-0f7e-41d3-914a-6b39fec13786" />
+
 This application provides experimenters with a streamlined interface for **metamer perception experiments**, integrating:
 
 - Hardware control via serial communication with a Teensy 4.0  
