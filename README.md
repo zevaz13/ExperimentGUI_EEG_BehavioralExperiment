@@ -1,20 +1,34 @@
 # Metamer Experiment GUI and Teensy Firmware
 
 ![C#](https://img.shields.io/badge/C%23-Compatible-blue)
+![C++ / Arduino](https://img.shields.io/badge/Language-C++%20%2F%20Arduino-orange)
 
-A graphical user interface (GUI) for running behavioral and EEG-based metamer experiments with a **Teensy 4.0 microcontroller**.  
-This GUI was used in the **Metamers project** to log behavioral and EEG data for the study:  
+A graphical user interface (GUI) and Teensy 4.0 firmware for running behavioral and EEG-based metamer experiments.
 
+This setup was used in the Metamers project to log behavioral and EEG data for:
 📄 [Brain-Computer Interface (BCI)-Based Identification of Congenital Red–Green Color Vision Deficiencies](https://www.techrxiv.org/users/902197/articles/1362255-brain-computer-interface-bci-based-identification-of-congenital-red-green-color-vision-deficiencies)  
 📄 DOI: 10.36227/techrxiv.176417950.04135341/v1
 
 ---
-
-## Overview
-
+## Experiment Summary
 <img width="446" height="464" alt="image" src="https://github.com/user-attachments/assets/3b860e91-0f7e-41d3-914a-6b39fec13786" />
 
-This application provides experimenters with a streamlined interface for **metamer perception experiments**, integrating:
+Participants sat in front of the visual stimulator with a chin rest for stable positioning.
+
+**Behavioral Task** Adjust red and green LEDs to match the color of a fixed yellow LED.
+Press a button to save the settings.
+20 trials per participant, with starting LED values randomized.
+Small random offsets on knobs prevent repeating the same positions.
+
+**BCI Task**
+EEG recorded during 4 runs, 100 trials per run (~6 min each).
+Stimulus alternated at 10 Hz between yellow and red+green LEDs.
+Yellow LED constant; red and green LEDs vary across a 10×10 grid.
+0.75-second pause between trials.
+Stimulus timing captured with digital triggers.
+
+## GUI Overview
+The GUI provides experimenters with a simple interface for metamer perception experiments:
 
 - Hardware control via serial communication with a Teensy 4.0  
 - Session setup and subject management  
@@ -44,8 +58,8 @@ The GUI is designed to work **directly from the executable** in the `bin` folder
 ---
 
 ### 🧪 Experiment Modes
-- **Behavioral Experiments:** Manual adjustment via input knobs  
-- **EEG Experiments:** GUI triggers experiment events only; EEG is logged externally  
+- **Behavioral Experiments:** Manual adjustment via input knobs (variable resistors connected to the Analog-digital interface)  
+- **EEG Experiments:** GUI triggers experiment events only; EEG is recorded externally (See publication)
 
 ---
 
@@ -81,27 +95,7 @@ TriggerCue TrialNumber Cyan  blue  green Press
 
 ---
 
-### 🧪 Experiment Types
-
-**Behavioral Experiments**
-- Participants adjust knobs to achieve a perceptual metamer  
-- Responses are recorded as `.txt` files  
-- Each run is automatically indexed and stored  
-
-**EEG Experiments**
-- GUI triggers and controls experiment timing via Teensy  
-- No behavioral data is saved (EEG acquisition handled externally)  
-
----
-
-### 💾 Data Output
-- All behavioral experiments generate `.txt` files  
-- Files are saved in the selected directory  
-- Run numbers are automatically incremented  
-
----
-
-## ⚙️ How to Use
+## ⚙️ How to Use GUI
 
 1. **Run the executable** in the `bin` folder  
 2. Ensure the target machine has the correct **.NET Runtime** installed (or publish as self-contained):  
@@ -113,46 +107,6 @@ TriggerCue TrialNumber Cyan  blue  green Press
 > Note: No installation or compilation of the GUI source code is required. The `.exe` is ready to run.
 
 ---
-
-### 🛠️ Built With
-- **C#** (.NET 6 or later recommended)  
-- Serial communication with Teensy 4.0  
-- Windows-compatible GUI  
-
----
-
-### 📄 Related Repository
-- Teensy Firmware: [TeensyMetamersFirmware](link-to-firmware-repo)  
-  Handles hardware-level LED control, trigger cues, and interaction with the GUI.
-
----
-
-### ⚠️ Notes
-- The GUI is designed for **research and experimental use only**  
-- Behavioral data is logged locally; EEG acquisition requires additional hardware  
-- Ensure the Teensy firmware matches the GUI version for proper communication  
-
----
-
-### 📸 Screenshots
-1. Serial connection status:
-
-<img width="284" height="362" alt="image" src="https://github.com/user-attachments/assets/1b8401cc-ac30-4668-8ede-634ee0d89bda" />
-
-2. Session management:
-
-<img width="1090" height="325" alt="image" src="https://github.com/user-attachments/assets/57df42ab-3155-4f3a-a6b0-5ca96444dae3" />
-
-3. Color paradigms:
-
-<img width="1085" height="319" alt="image" src="https://github.com/user-attachments/assets/d05abbe1-3d92-405b-9f4d-4687e19ae468" />
-
-4. Example behavioral output:
-
-<img width="950" height="113" alt="image" src="https://github.com/user-attachments/assets/352edd3a-2072-4b39-988c-bcb7ca0e7769" />
-
-
-## FIRMWARE Features
 ## Teensy 4.0 Firmware for Metamer Experiments
 
 This firmware runs on the **Teensy 4.0 microcontroller** and serves as the **real-time control layer** for metamer perception experiments.  
@@ -248,7 +202,6 @@ The Teensy firmware communicates with the GUI via serial commands and ensures pr
 **Requirements:**
 - Teensy 4.0  
 - Arduino IDE or PlatformIO  
-- Teensyduino add-on (if using Arduino IDE)  
 
 **Flashing the Firmware:**
 1. Open the project in Arduino IDE or PlatformIO  
@@ -257,18 +210,6 @@ The Teensy firmware communicates with the GUI via serial commands and ensures pr
 4. Connect via USB to the host computer  
 
 ---
-
-## 🔌 Serial Communication
-
-The firmware listens for commands from the GUI to:
-- Select experiment mode  
-- Set stimulation parameters  
-- Start/stop experiments  
-
-> ⚠️ Ensure that the **serial baud rate matches the GUI configuration**.
-
----
-
 ## ⚠️ Timing Considerations
 
 - Hardware timers ensure:
@@ -283,3 +224,40 @@ The firmware listens for commands from the GUI to:
 - Digital output pins send trigger signals for each stimulus event  
 - Triggers are recorded by EEG amplifiers as digital inputs  
 - Guarantees precise alignment between **stimulus presentation** and **neural recordings**
+
+
+### 🛠️ Built With
+- **C#** (.NET 6 or later recommended)  
+- C++ / Arduino for Teensy firmware  
+- Windows-compatible GUI  
+
+---
+
+### ⚠️ Notes
+- The GUI is designed for **research and experimental use only**  
+- Behavioral data is logged locally; EEG acquisition requires additional hardware  
+- Ensure the Teensy firmware matches the GUI version for proper communication  
+
+---
+
+### 📸 Screenshots
+1. Serial connection status:
+
+<img width="284" height="362" alt="image" src="https://github.com/user-attachments/assets/1b8401cc-ac30-4668-8ede-634ee0d89bda" />
+
+2. Session management:
+
+<img width="1090" height="325" alt="image" src="https://github.com/user-attachments/assets/57df42ab-3155-4f3a-a6b0-5ca96444dae3" />
+
+3. Color paradigms:
+
+<img width="1085" height="319" alt="image" src="https://github.com/user-attachments/assets/d05abbe1-3d92-405b-9f4d-4687e19ae468" />
+
+4. Example behavioral output:
+
+<img width="950" height="113" alt="image" src="https://github.com/user-attachments/assets/352edd3a-2072-4b39-988c-bcb7ca0e7769" />
+
+
+
+## TO-DO
+- Update FIRMWARE so it includes packages instead of just the code
