@@ -25,7 +25,7 @@ The GUI is designed to work **directly from the executable** in the `bin` folder
 
 ---
 
-## Features
+## GUI Features
 
 ### 🔌 Serial Communication
 - Connects to Teensy 4.0 via a configurable serial port  
@@ -152,3 +152,134 @@ TriggerCue TrialNumber Cyan  blue  green Press
 <img width="950" height="113" alt="image" src="https://github.com/user-attachments/assets/352edd3a-2072-4b39-988c-bcb7ca0e7769" />
 
 
+## FIRMWARE Features
+## Teensy 4.0 Firmware for Metamer Experiments
+
+This firmware runs on the **Teensy 4.0 microcontroller** and serves as the **real-time control layer** for metamer perception experiments.  
+It works hand-in-hand with the [Metamer Experiment GUI](#) to control LED-based visual stimuli, read participant inputs, and generate precise timing signals for EEG recordings.
+
+---
+
+## 🧠 Overview
+
+The Teensy firmware communicates with the GUI via serial commands and ensures precise stimulus timing using hardware timers.  
+
+**Core responsibilities include:**
+- Generating LED stimulation signals via PWM  
+- Reading participant input from knobs/sliders (analog inputs)  
+- Executing behavioral and EEG experiment protocols  
+- Sending synchronization signals to external EEG acquisition systems  
+
+---
+
+## ✨ Features
+
+### ⏱️ Precise Timing Control
+- Uses **hardware timers** to maintain accurate stimulus frequencies  
+- Ensures low jitter for EEG-triggered events (e.g., SSVEP paradigms)  
+
+### 💡 LED Control via PWM
+- Drives LED channels (Red, Green, Blue) through external drivers  
+- Supports **continuous** and **modulated light output**  
+
+### 🎛️ Analog Input Handling
+- Reads participant adjustments via ADC (knobs/sliders)  
+- Enables **real-time control** during behavioral experiments  
+
+### 🔌 Serial Communication
+- Receives commands from the GUI  
+- Sends experiment state and participant data when required  
+
+### 📡 Digital Trigger Outputs
+- Sends precise digital signals to EEG amplifiers for synchronization  
+- Marks each stimulus event with a digital pulse for accurate EEG alignment  
+
+---
+
+## 🧪 Experiment Modes
+
+### Behavioral (Manual) Experiments
+- Participants adjust knobs/sliders to achieve a perceptual metamer  
+- Analog inputs continuously read via ADC  
+- LED intensities updated in **real-time via PWM**  
+- Data sent to GUI for logging  
+
+### EEG Experiments
+- Predefined stimulus sequences executed automatically  
+- Each stimulus associated with a **digital trigger output**  
+- Timing controlled using **hardware timers** for precise frequency and phase  
+- Digital triggers recorded by EEG amplifiers for synchronization  
+
+---
+
+## 🎨 Stimulus Control
+
+- LED channels controlled via PWM signals  
+- Compatible with external LED drivers  
+- Supports multiple **color paradigms**:  
+  - **Red–Green:** Yellow reference  
+  - **Blue–Green:** Cyan reference  
+
+---
+
+## 🔧 Hardware Interfaces
+
+| Interface | Description |
+|-----------|-------------|
+| Analog Inputs (ADC) | Knobs or sliders for participant control |
+| PWM Outputs | LED intensity control via external drivers |
+| Digital Outputs | Trigger signals for EEG acquisition |
+| Serial (USB) | Communication with experiment GUI |
+
+---
+
+## ⚙️ Firmware Architecture
+
+- **Main Loop:** Handles serial commands and experiment state  
+- **Timer Interrupts:** Ensure precise stimulus timing  
+- **ADC Module:** Reads analog inputs continuously or on demand  
+- **PWM Control:** Updates LED intensities in real-time  
+- **Digital I/O:** Sends trigger signals during EEG experiments  
+
+---
+
+## 🚀 Setup & Installation
+
+**Requirements:**
+- Teensy 4.0  
+- Arduino IDE or PlatformIO  
+- Teensyduino add-on (if using Arduino IDE)  
+
+**Flashing the Firmware:**
+1. Open the project in Arduino IDE or PlatformIO  
+2. Select board: **Teensy 4.0**  
+3. Compile and upload to the device  
+4. Connect via USB to the host computer  
+
+---
+
+## 🔌 Serial Communication
+
+The firmware listens for commands from the GUI to:
+- Select experiment mode  
+- Set stimulation parameters  
+- Start/stop experiments  
+
+> ⚠️ Ensure that the **serial baud rate matches the GUI configuration**.
+
+---
+
+## ⚠️ Timing Considerations
+
+- Hardware timers ensure:
+  - Stable stimulation frequencies  
+  - Low jitter for EEG triggers  
+- **Avoid adding blocking code** in the main loop or interrupts  
+
+---
+
+## 🧪 EEG Synchronization
+
+- Digital output pins send trigger signals for each stimulus event  
+- Triggers are recorded by EEG amplifiers as digital inputs  
+- Guarantees precise alignment between **stimulus presentation** and **neural recordings**
