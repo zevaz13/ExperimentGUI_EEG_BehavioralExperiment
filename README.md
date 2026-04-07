@@ -11,7 +11,7 @@ This setup was used in the Metamers project to log behavioral and EEG data for:
 
 ---
 ## Experiment Summary
-<img width="446" height="464" alt="image" src="https://github.com/user-attachments/assets/3b860e91-0f7e-41d3-914a-6b39fec13786" />
+<img width="1087" height="1093" alt="figureExp" src="https://github.com/user-attachments/assets/5a0773b0-b99a-45ed-976d-0f2fe0a898a2" />
 
 Participants sat in front of the visual stimulator with a chin rest for stable positioning.
 
